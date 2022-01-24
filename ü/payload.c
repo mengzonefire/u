@@ -301,68 +301,6 @@ VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
 	DeleteObject(hcdcScreen);
 }
 
-VOID ExecuteShader(FX_SHADER shader, INT wPlanes, INT hPlanes, DWORD dwTime) {
-	BITMAPINFO bmi = { 0 };
-	PRGBQUAD prgbSrc, prgbDst;
-	HANDLE hHeap;
-	HDC hdcTemp;
-	HBITMAP hbmTemp;
-	SIZE_T nSize;
-	INT nWidth;
-		INT nHeight;
-
-		nWidth = rcBounds.right - rcBounds.left;
-		nHeight = rcBounds.bottom - rcBounds.top;
-		nSize = nWidth * nHeight * sizeof(COLORREF);
-
-		bmi.bmiHeader.biSize = sizeof(BITMAPINFO);
-		bmi.bmiHeader.biBitCount = 32;
-		bmi.bmiHeader.biPlanes = 1;
-		bmi.bmiHeader.biWidth = nWidth;
-		bmi.bmiHeader.biHeight = nHeight;
-
-		hHeap = GetProcessHeap();
-		prgbSrc = (PRGBQUAD)HeapAlloc(hHeap, 0, nSize);
-
-		hdcTemp = CreateCompatibleDC(hdcDst);
-		hbmTemp = CreateDIBSection(hdcDst, &bmi, 0, &prgbDst, NULL, 0);
-		SelectObject(hdcTemp, hbmTemp);
-
-		for (INT i = 0, j = nCounter; (j + nTime) > nCounter; i++)
-		{
-			if (pPreGdiShader == NULL)
-			{
-				BitBlt(hdcTemp, 0, 0, nWidth, nHeight, hdcDst, rcBounds.left, rcBounds.top, SRCCOPY);
-			}
-			else
-			{
-				pPreGdiShader(i, nWidth, nHeight, rcBounds, hdcDst, hdcTemp);
-			}
-
-			RtlCopyMemory(prgbSrc, prgbDst, nSize);
-
-			pGdiShader(i, nWidth, nHeight, hdcDst, hbmTemp, prgbSrc, prgbDst);
-
-			if (pPostGdiShader == NULL)
-			{
-				BitBlt(hdcDst, rcBounds.left, rcBounds.top, nWidth, nHeight, hdcTemp, 0, 0, SRCCOPY);
-			}
-			else
-			{
-				pPostGdiShader(i, nWidth, nHeight, rcBounds, hdcDst, hdcTemp);
-			}
-
-			if (nDelay)
-			{
-				Sleep(nDelay);
-			}
-		}
-
-		HeapFree(hHeap, 0, prgbSrc);
-		DeleteObject(hbmTemp);
-		DeleteDC(hdcTemp);
-	}
-
 VOID WINAPI ExecuteAudioSequence(
 	_In_ INT nSamplesPerSec,
 	_In_ INT nSampleCount,
