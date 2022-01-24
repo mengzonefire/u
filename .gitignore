@@ -3,5 +3,4 @@ Release/*
 ü/Debug/*
 ü/Release/*
 ü/*.vcxproj.*
-ü/*.vcxproj
 .vs/*
