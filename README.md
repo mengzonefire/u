@@ -1,5 +1,10 @@
+<div align="center">
+
 # ü.exe
+
 ![ü.exe ScreenShot](./README-Resources/1.png)
+
+</div>
 
 ü.exe is a malware creates flashy screen effects, and destroy the partitions of your computer (not now).
 
