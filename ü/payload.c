@@ -263,12 +263,35 @@ VOID Payload6(_In_ INT t, _In_ HDC hdcScreen) {
 VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
 	POINT ptScreen = GetVirtualScreenPos();
 	SIZE szScreen = GetVirtualScreenSize();
+	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
 
-	COLORREF rgb = RGB(xorshift32() % 255, xorshift32() % 255, xorshift32() % 255);
-	HBRUSH randrgb = CreateSolidBrush(rgb);
-	SelectObject(hdcScreen, randrgb);
-	PatBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, PATINVERT);
-	DeleteObject(randrgb);
+	BITMAPINFO bminf = { 0 };
+	bminf.bmiHeader.biSize = sizeof(BITMAPINFO);
+	bminf.bmiHeader.biBitCount = 32;
+	bminf.bmiHeader.biPlanes = 1;
+	bminf.bmiHeader.biWidth = szScreen.cx;
+	bminf.bmiHeader.biHeight = szScreen.cy;
+
+	PRGBQUAD pixlz = { 0 };
+
+	HBITMAP hBitmap = CreateDIBSection(hdcScreen, &bminf, 0, &pixlz, NULL, 0);
+	SelectObject(hcdcScreen, hBitmap);
+
+	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
+
+	for (INT i = 0; i < szScreen.cx * szScreen.cy; i++) {
+		pixlz[i].r = (pixlz[i].r * 2) % 255;
+		pixlz[i].g = (pixlz[i].g * 2) % 255;
+		pixlz[i].b = (pixlz[i].b * 2) % 255;
+	}
+
+	BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
+
+	//Sleep(1000);
+
+	DeleteObject(hBitmap);
+	DeleteObject(pixlz);
+	DeleteObject(hcdcScreen);
 }
 
 VOID Payload8(_In_ INT t, _In_ HDC hdcScreen) {
