@@ -125,22 +125,6 @@ VOID ExecutePayload(FX_PAYLOAD payload, DWORD dwTime) {
 VOID Payload1(_In_ INT t, _In_ HDC hdcScreen) {
 	POINT ptScreen = GetVirtualScreenPos();
 	SIZE szScreen = GetVirtualScreenSize();
-
-	/*
-	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
-	HBITMAP hBitmap = CreateCompatibleBitmap(hdcScreen, szScreen.cx, szScreen.cy);
-	SelectObject(hcdcScreen, hBitmap);
-
-	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
-	for (INT i = 0; i < 8; i++) {
-		t *= 10;
-		BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x + t % (szScreen.cx * 2) - szScreen.cx, ptScreen.y + t % (szScreen.cy * 2) - szScreen.cy, NOTSRCERASE);
-	}
-	BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
-	DeleteObject(hBitmap);
-	DeleteObject(hcdcScreen);
-	*/
-
 	BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x + t % (szScreen.cx * 2) - szScreen.cx, ptScreen.y + t % (szScreen.cy * 2) - szScreen.cy, NOTSRCERASE);
 	HBRUSH randrgb = CreateSolidBrush(RGB(xorshift32() % 255, xorshift32() % 255, xorshift32() % 255));
 	SelectObject(hdcScreen, randrgb);
