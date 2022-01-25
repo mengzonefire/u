@@ -36,11 +36,11 @@ const char* msgs[] = {
 const size_t nMsgs = sizeof(msgs) / sizeof(void*);
 
 AUDIO_SEQUENCE_PARAMS pAudioSequences[5] = {
-		{ 8000, 8000 * 30, AudioSequence1, NULL, NULL },
-		{ 8000, 8000 * 30, AudioSequence2, NULL, NULL },
-		{ 8000, 8000 * 30, AudioSequence3, NULL, NULL },
-		{ 8000, 8000 * 30, AudioSequence4, NULL, NULL },
-		{ 8000, 8000 * 30, AudioSequence5, NULL, NULL },
+		{ 8000, 8000 * 30, AudioSequence1 },
+		{ 8000, 8000 * 30, AudioSequence2 },
+		{ 8000, 8000 * 30, AudioSequence3 },
+		{ 8000, 8000 * 30, AudioSequence4 },
+		{ 8000, 8000 * 30, AudioSequence5 },
 };
 
 DWORD random(VOID) {
@@ -287,7 +287,7 @@ VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
 
 	BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
 
-	//Sleep(1000);
+	Sleep(50);
 
 	DeleteObject(hBitmap);
 	DeleteObject(pixlz);

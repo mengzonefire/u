@@ -21,7 +21,6 @@ VOID WINAPI RandomPop(VOID);
 static FLOAT pfSinVals[4096];
 
 typedef VOID(FX_PAYLOAD)(_In_ INT t, _In_ HDC hdcScreen);
-typedef VOID(FX_SHADER)(_In_ INT t, _In_ HDC hdcScreen, _In_ INT cxPlane, _In_ INT cyPlane);
 
 typedef VOID(WINAPI AUDIO_SEQUENCE)(
 	_In_ INT nSamplesPerSec,
@@ -62,7 +61,6 @@ extern VOID WINAPI EnumWindowProc(VOID);
 
 #pragma region Payload
 extern VOID ExecutePayload(FX_PAYLOAD payload, DWORD dwTime);
-extern VOID ExecuteShader(FX_PAYLOAD payload, DWORD dwTime);
 
 extern FX_PAYLOAD Payload1;
 extern FX_PAYLOAD Payload2;
@@ -79,14 +77,10 @@ extern FX_PAYLOAD Payload7;
 extern VOID WINAPI ExecuteAudioSequence(
 	_In_ INT nSamplesPerSec,
 	_In_ INT nSampleCount,
-	_In_ AUDIO_SEQUENCE pAudioSequence,
-	_In_opt_ AUDIOSEQUENCE_OPERATION pPreAudioOp,
-	_In_opt_ AUDIOSEQUENCE_OPERATION pPostAudioOp
+	_In_ AUDIO_SEQUENCE pAudioSequence
 );
 
 extern VOID WINAPI AudioThread(VOID);
-
-extern VOID WINAPI AudioSequenceThread(_In_ PAUDIO_SEQUENCE_PARAMS pAudioParams);
 
 extern AUDIO_SEQUENCE AudioSequence1;
 extern AUDIO_SEQUENCE AudioSequence2;
