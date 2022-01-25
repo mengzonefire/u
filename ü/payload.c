@@ -325,9 +325,7 @@ VOID Payload8(_In_ INT t, _In_ HDC hdcScreen) {
 VOID WINAPI ExecuteAudioSequence(
 	_In_ INT nSamplesPerSec,
 	_In_ INT nSampleCount,
-	_In_ AUDIO_SEQUENCE pAudioSequence,
-	_In_opt_ AUDIOSEQUENCE_OPERATION pPreAudioOp,
-	_In_opt_ AUDIOSEQUENCE_OPERATION pPostAudioOp
+	_In_ AUDIO_SEQUENCE pAudioSequence
 ) {
 	HANDLE hHeap = GetProcessHeap();
 	PSHORT psSamples = HeapAlloc(hHeap, 0, nSampleCount * 2);
@@ -336,17 +334,7 @@ VOID WINAPI ExecuteAudioSequence(
 	HWAVEOUT hWaveOut;
 	waveOutOpen(&hWaveOut, WAVE_MAPPER, &waveFormat, 0, 0, 0);
 
-	if (pPreAudioOp)
-	{
-		pPreAudioOp(nSamplesPerSec);
-	}
-
 	pAudioSequence(nSamplesPerSec, nSampleCount, psSamples);
-
-	if (pPostAudioOp)
-	{
-		pPostAudioOp(nSamplesPerSec);
-	}
 
 	waveOutPrepareHeader(hWaveOut, &waveHdr, sizeof(waveHdr));
 	waveOutWrite(hWaveOut, &waveHdr, sizeof(waveHdr));
