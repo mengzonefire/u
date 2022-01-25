@@ -72,6 +72,7 @@ extern FX_PAYLOAD Payload4;
 extern FX_PAYLOAD Payload4A;
 extern FX_PAYLOAD Payload5;
 extern FX_PAYLOAD Payload6;
+extern FX_PAYLOAD Payload7;
 #pragma endregion Payload
 
 #pragma region AudioSequence

