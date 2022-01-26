@@ -294,7 +294,11 @@ VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
 	DeleteObject(hcdcScreen);
 }
 
-VOID Payload8(_In_ INT t, _In_ HDC hdcScreen) {
+VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
+	seedxorshift32(__rdtsc());
+
+	HDC hdcScreen = GetDC(NULL);
+
 	POINT ptScreen = GetVirtualScreenPos();
 	SIZE szScreen = GetVirtualScreenSize();
 	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
@@ -311,15 +315,24 @@ VOID Payload8(_In_ INT t, _In_ HDC hdcScreen) {
 	HBITMAP hBitmap = CreateDIBSection(hdcScreen, &bminf, 0, &pixlz, NULL, 0);
 	SelectObject(hcdcScreen, hBitmap);
 
-	for (INT i = 0; i < szScreen.cx * szScreen.cy; i++) {
-		pixlz[i].rgb = (xorshift32() % 255) * 65793;
+	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
+
+	INT dwStartTime = dwTimeElapsed;
+	for (INT i = 0, j = dwTimeElapsed; (j + dwTime) > dwTimeElapsed; i++) {
+		shader(i, szScreen.cx, szScreen.cy, pixlz);
+		BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
 	}
 
-	BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
-
 	DeleteObject(hBitmap);
-	DeleteObject(pixlz);
-	DeleteObject(hcdcScreen);
+	DeleteDC(hcdcScreen);
+	ReleaseDC(NULL, hdcScreen);
+	DeleteObject(hdcScreen);
+}
+
+VOID Shader1(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz) {
+	for (INT i = 0; i < cx * cy; i++) {
+		pixlz[i].rgb = (pixlz[i].rgb * 2) % (RGB(255, 255, 255));
+	}
 }
 
 VOID WINAPI ExecuteAudioSequence(

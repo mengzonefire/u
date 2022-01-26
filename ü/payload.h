@@ -22,6 +22,8 @@ static FLOAT pfSinVals[4096];
 
 typedef VOID(FX_PAYLOAD)(_In_ INT t, _In_ HDC hdcScreen);
 
+typedef VOID(FX_SHADER)(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz);
+
 typedef VOID(WINAPI AUDIO_SEQUENCE)(
 	_In_ INT nSamplesPerSec,
 	_In_ INT nSampleCount,
@@ -40,7 +42,7 @@ typedef struct tagAUDIO_SEQUENCE_PARAMS {
 	PAUDIO_SEQUENCE_OPERATION pPostAudioOp;
 } AUDIO_SEQUENCE_PARAMS, * PAUDIO_SEQUENCE_PARAMS;
 
-typedef union {
+typedef union _RGBQUAD{
 	COLORREF rgb;
 	struct {
 		BYTE b;
@@ -48,7 +50,7 @@ typedef union {
 		BYTE r;
 		BYTE unused;
 	};
-} ARGBQUAD, * PRGBQUAD;
+} * PRGBQUAD;
 #pragma endregion Defs
 extern BOOL CALLBACK StartupMsgProc(
 	_In_ HWND   hwnd,
@@ -61,6 +63,7 @@ extern VOID WINAPI EnumWindowProc(VOID);
 
 #pragma region Payload
 extern VOID ExecutePayload(FX_PAYLOAD payload, DWORD dwTime);
+extern VOID ExecuteShader(FX_SHADER shader, DWORD dwTime);
 
 extern FX_PAYLOAD Payload1;
 extern FX_PAYLOAD Payload2;
@@ -71,6 +74,8 @@ extern FX_PAYLOAD Payload4A;
 extern FX_PAYLOAD Payload5;
 extern FX_PAYLOAD Payload6;
 extern FX_PAYLOAD Payload7;
+
+extern FX_SHADER Shader1;
 #pragma endregion Payload
 
 #pragma region AudioSequence
