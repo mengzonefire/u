@@ -35,12 +35,14 @@ const char* msgs[] = {
 
 const size_t nMsgs = sizeof(msgs) / sizeof(void*);
 
-AUDIO_SEQUENCE_PARAMS pAudioSequences[5] = {
+AUDIO_SEQUENCE_PARAMS pAudioSequences[7] = {
 		{ 8000, 8000 * 30, AudioSequence1 },
 		{ 8000, 8000 * 30, AudioSequence2 },
 		{ 8000, 8000 * 30, AudioSequence3 },
 		{ 8000, 8000 * 30, AudioSequence4 },
 		{ 8000, 8000 * 30, AudioSequence5 },
+		{ 8000, 8000 * 30, AudioSequence6 },
+		{ 8000, 8000 * 30, AudioSequence7 }
 };
 
 DWORD random(VOID) {
@@ -366,7 +368,7 @@ VOID WINAPI ExecuteAudioSequence(
 
 VOID WINAPI AudioThread(VOID) {
 	for (;;) {
-		for (INT i = 0; i <= 4; i++) {
+		for (INT i = 0; i <= 7; i++) {
 			ExecuteAudioSequence(
 				pAudioSequences[i].nSamplesPerSec,
 				pAudioSequences[i].nSampleCount,
@@ -428,7 +430,29 @@ VOID AudioSequence5(
 	_Inout_ PSHORT psSamples
 ) {
 	for (INT t = 0; t < nSampleCount * 2; t++) {
-		BYTE bFreq = (BYTE)((t | t % 255 | t % 257) + (t & t >> 8) + (t * (42 & t >> 10)) + ((t % ((t >> 8 | t >> 16) + 1)) ^ t));
+		BYTE bFreq = (BYTE)(((-t & 4095) * (255 & t * (t & t >> 13)) >> 12) + (127 & t * (234 & t >> 8 & t >> 3) >> (3 & t >> 14)));
+		((BYTE*)psSamples)[t] = bFreq;
+	}
+}
+
+VOID AudioSequence6(
+	_In_ INT nSamplesPerSec,
+	_In_ INT nSampleCount,
+	_Inout_ PSHORT psSamples
+) {
+	for (INT t = 0; t < nSampleCount * 2; t++) {
+		BYTE bFreq = (BYTE)(((-t & 4095) * (255 & t * (t & t >> 13)) >> 12) + (127 & t * (234 & t >> 8 & t >> 3) >> (3 & t >> 14)));
+		((BYTE*)psSamples)[t] = bFreq;
+	}
+}
+
+VOID AudioSequence7(
+	_In_ INT nSamplesPerSec,
+	_In_ INT nSampleCount,
+	_Inout_ PSHORT psSamples
+) {
+	for (INT t = 0; t < nSampleCount * 2; t++) {
+		BYTE bFreq = (BYTE)(100 * ((t << 2 | t >> 5 | t ^ 63) & (t << 10 | t >> 11)));
 		((BYTE*)psSamples)[t] = bFreq;
 	}
 }

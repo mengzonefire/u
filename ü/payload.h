@@ -20,10 +20,6 @@ VOID WINAPI RandomPop(VOID);
 #define PI 3.141592f
 static FLOAT pfSinVals[4096];
 
-typedef VOID(FX_PAYLOAD)(_In_ INT t, _In_ HDC hdcScreen);
-
-typedef VOID(FX_SHADER)(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz);
-
 typedef VOID(WINAPI AUDIO_SEQUENCE)(
 	_In_ INT nSamplesPerSec,
 	_In_ INT nSampleCount,
@@ -42,7 +38,7 @@ typedef struct tagAUDIO_SEQUENCE_PARAMS {
 	PAUDIO_SEQUENCE_OPERATION pPostAudioOp;
 } AUDIO_SEQUENCE_PARAMS, * PAUDIO_SEQUENCE_PARAMS;
 
-typedef union _RGBQUAD{
+typedef union _RGBQUAD {
 	COLORREF rgb;
 	struct {
 		BYTE b;
@@ -51,6 +47,10 @@ typedef union _RGBQUAD{
 		BYTE unused;
 	};
 } * PRGBQUAD;
+
+typedef VOID(FX_PAYLOAD)(_In_ INT t, _In_ HDC hdcScreen);
+
+typedef VOID(FX_SHADER)(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz);
 #pragma endregion Defs
 extern BOOL CALLBACK StartupMsgProc(
 	_In_ HWND   hwnd,
@@ -92,4 +92,6 @@ extern AUDIO_SEQUENCE AudioSequence2;
 extern AUDIO_SEQUENCE AudioSequence3;
 extern AUDIO_SEQUENCE AudioSequence4;
 extern AUDIO_SEQUENCE AudioSequence5;
+extern AUDIO_SEQUENCE AudioSequence6;
+extern AUDIO_SEQUENCE AudioSequence7;
 #pragma endregion AudioSequence
