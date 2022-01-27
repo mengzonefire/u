@@ -13,9 +13,6 @@
 	<a>
 		<img src="https://img.shields.io/badge/platform-Windows%20XP-blue" alt="license">
 	</a>
-	<a href="https://github.com/srcatt/u/releases/">
-		<img src="https://img.shields.io/badge/build-Safe-red" alt="status">
-	</a>
 </p>
 
 ü.exe is a malware creates flashy screen effects, and destroy the partitions of your computer (not now).
