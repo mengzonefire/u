@@ -11,7 +11,7 @@
 		<img src="https://img.shields.io/github/license/srcatt/u" alt="license">
 	</a>
 	<a href="#">
-		<img src="https://img.shields.io/badge/platform-Windows%20XP-blue" alt="license">
+		<img src="https://img.shields.io/badge/platform-Windows%20XP+-blue" alt="license">
 	</a>
 </p>
 
