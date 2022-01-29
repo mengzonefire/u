@@ -10,7 +10,7 @@
 	<a href="https://raw.githubusercontent.com/srcatt/u/master/LICENSE">
 		<img src="https://img.shields.io/github/license/srcatt/u" alt="license">
 	</a>
-	<a>
+	<a href="#">
 		<img src="https://img.shields.io/badge/platform-Windows%20XP-blue" alt="license">
 	</a>
 </p>

@@ -74,6 +74,7 @@ extern FX_PAYLOAD Payload4A;
 extern FX_PAYLOAD Payload5;
 extern FX_PAYLOAD Payload6;
 extern FX_PAYLOAD Payload7;
+extern FX_PAYLOAD Payload8;
 
 extern FX_SHADER Shader1;
 #pragma endregion Payload
