@@ -116,6 +116,7 @@ VOID WINAPI EnumWindowProc(VOID) {
 VOID ExecutePayload(FX_PAYLOAD payload, DWORD dwTime) {
 	INT dwStartTime = dwTimeElapsed;
 	seedxorshift32(__rdtsc());
+	RedrawWindow(0, 0, 0, 133);
 	for (INT i = 0, j = dwTimeElapsed; (j + dwTime) > dwTimeElapsed; i++) {
 		HDC hdcScreen = GetDC(NULL);
 		payload(i, hdcScreen);
@@ -289,6 +290,7 @@ VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
 
 	INT dwStartTime = dwTimeElapsed;
+	RedrawWindow(0, 0, 0, 133);
 	for (INT i = 0, j = dwTimeElapsed; (j + dwTime) > dwTimeElapsed; i++) {
 		shader(i, szScreen.cx, szScreen.cy, pixlz);
 		BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
