@@ -221,6 +221,10 @@ VOID Payload5(_In_ INT t, _In_ HDC hdcScreen) {
 	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
 	HBITMAP hBitmap = CreateCompatibleBitmap(hdcScreen, szScreen.cx, szScreen.cy);
 
+	if ((t % 6) == 6) {
+		RedrawWindow(0, 0, 0, 133);
+	}
+
 	SelectObject(hcdcScreen, hBitmap);
 
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
@@ -247,6 +251,10 @@ VOID Payload6(_In_ INT t, _In_ HDC hdcScreen) {
 	SIZE szScreen = GetVirtualScreenSize();
 	HDC hcdcScreen = CreateCompatibleDC(hdcScreen);
 	HBITMAP hBitmap = CreateCompatibleBitmap(hdcScreen, szScreen.cx, szScreen.cy);
+
+	if ((t % 6) == 6) {
+		RedrawWindow(0, 0, 0, 133);
+	}
 
 	SelectObject(hcdcScreen, hBitmap);
 
