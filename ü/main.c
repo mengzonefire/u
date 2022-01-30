@@ -40,7 +40,6 @@ INT WINAPI wWinMain(
 	ExecutePayload(Payload4A, 30);
 	ExecutePayload(Payload5, 30);
 	ExecutePayload(Payload6, 30);
-	ExecutePayload(Payload7, 30);
 	ExecuteShader(Shader1, 30);
 	ExecuteShader(Shader2, 30);
 	return 0;
