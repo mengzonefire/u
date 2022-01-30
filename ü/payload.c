@@ -123,6 +123,7 @@ VOID ExecutePayload(FX_PAYLOAD payload, DWORD dwTime) {
 		ReleaseDC(NULL, hdcScreen);
 		DeleteObject(hdcScreen);
 	}
+	RedrawWindow(0, 0, 0, 133);
 }
 
 VOID Payload1(_In_ INT t, _In_ HDC hdcScreen) {
@@ -310,6 +311,7 @@ VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 	DeleteDC(hcdcScreen);
 	ReleaseDC(NULL, hdcScreen);
 	DeleteObject(hdcScreen);
+	RedrawWindow(0, 0, 0, 133);
 }
 
 VOID Shader1(_In_ INT t, _In_ INT cx, _In_ INT cy, _Inout_ PRGBQUAD pixlz) {
