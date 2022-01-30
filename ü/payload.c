@@ -298,6 +298,7 @@ VOID Payload7(_In_ INT t, _In_ HDC hdcScreen) {
 
 VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 	seedxorshift32(__rdtsc());
+	//HANDLE hHeap = GetProcessHeap();
 
 	HDC hdcScreen = GetDC(NULL);
 
@@ -312,6 +313,8 @@ VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 	bminf.bmiHeader.biWidth = szScreen.cx;
 	bminf.bmiHeader.biHeight = szScreen.cy;
 
+	//PRGBQUAD pixlz = (PRGBQUAD)HeapAlloc(hHeap, 0, szScreen.cx * szScreen.cy * sizeof(COLORREF));
+
 	PRGBQUAD pixlz = { 0 };
 
 	HBITMAP hBitmap = CreateDIBSection(hdcScreen, &bminf, 0, &pixlz, NULL, 0);
@@ -325,15 +328,26 @@ VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 		BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
 	}
 
+	//HeapFree(hHeap, 0, pixlz);
+
 	DeleteObject(hBitmap);
 	DeleteDC(hcdcScreen);
 	ReleaseDC(NULL, hdcScreen);
 	DeleteObject(hdcScreen);
 }
 
-VOID Shader1(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz) {
+VOID Shader1(_In_ INT t, _In_ INT cx, _In_ INT cy, _Inout_ PRGBQUAD pixlz) {
 	for (INT i = 0; i < cx * cy; i++) {
 		pixlz[i].rgb = (pixlz[i].rgb * 2) % (RGB(255, 255, 255));
+	}
+}
+
+VOID Shader2(_In_ INT t, _In_ INT cx, _In_ INT cy, _Inout_ PRGBQUAD pixlz) {
+	for (INT i = 0; i < cx * cy; i++) {
+		INT r = GetRValue(pixlz[i].rgb);
+		INT g = GetGValue(pixlz[i].rgb);
+		INT b = GetBValue(pixlz[i].rgb);
+		pixlz[i].rgb = RGB((r + 100) % 256, ((r + g + b) / 4 + t) % 256, ((r + g + b) / 4 + i) % 256) % (RGB(255, 255, 255)) + t * 10;
 	}
 }
 

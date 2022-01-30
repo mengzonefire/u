@@ -50,7 +50,7 @@ typedef union _RGBQUAD {
 
 typedef VOID(FX_PAYLOAD)(_In_ INT t, _In_ HDC hdcScreen);
 
-typedef VOID(FX_SHADER)(_In_ INT t, _In_ INT cx, _In_ INT cy, PRGBQUAD pixlz);
+typedef VOID(FX_SHADER)(_In_ INT t, _In_ INT cx, _In_ INT cy, _Inout_ PRGBQUAD pixlz);
 #pragma endregion Defs
 extern BOOL CALLBACK StartupMsgProc(
 	_In_ HWND   hwnd,
@@ -77,6 +77,7 @@ extern FX_PAYLOAD Payload7;
 extern FX_PAYLOAD Payload8;
 
 extern FX_SHADER Shader1;
+extern FX_SHADER Shader2;
 #pragma endregion Payload
 
 #pragma region AudioSequence
