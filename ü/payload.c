@@ -273,6 +273,8 @@ VOID Payload6(_In_ INT t, _In_ HDC hdcScreen) {
 }
 
 VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
+	RedrawWindow(0, 0, 0, 133);
+
 	seedxorshift32(__rdtsc());
 	//HANDLE hHeap = GetProcessHeap();
 
@@ -299,7 +301,6 @@ VOID ExecuteShader(FX_SHADER shader, DWORD dwTime) {
 	BitBlt(hcdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
 
 	INT dwStartTime = dwTimeElapsed;
-	RedrawWindow(0, 0, 0, 133);
 	for (INT i = 0, j = dwTimeElapsed; (j + dwTime) > dwTimeElapsed; i++) {
 		shader(i, szScreen.cx, szScreen.cy, pixlz);
 		BitBlt(hdcScreen, ptScreen.x, ptScreen.y, szScreen.cx, szScreen.cy, hcdcScreen, ptScreen.x, ptScreen.y, SRCCOPY);
