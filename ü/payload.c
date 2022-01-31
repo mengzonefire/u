@@ -360,16 +360,14 @@ VOID WINAPI ExecuteAudioSequence(
 }
 
 VOID WINAPI AudioThread(VOID) {
-	for (;;) {
-		for (INT i = 0; i <= 7; i++) {
-			ExecuteAudioSequence(
-				pAudioSequences[i].nSamplesPerSec,
-				pAudioSequences[i].nSampleCount,
-				pAudioSequences[i].pAudioSequence,
-				pAudioSequences[i].pPreAudioOp,
-				pAudioSequences[i].pPostAudioOp
-			);
-		}
+	for (INT i = 0; i <= 6; i++) {
+		ExecuteAudioSequence(
+			pAudioSequences[i].nSamplesPerSec,
+			pAudioSequences[i].nSampleCount,
+			pAudioSequences[i].pAudioSequence,
+			pAudioSequences[i].pPreAudioOp,
+			pAudioSequences[i].pPostAudioOp
+		);
 	}
 }
 
